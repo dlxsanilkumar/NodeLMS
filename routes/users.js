@@ -38,14 +38,16 @@ router.post('/register', function(req, res, next) {
 		User.findOne({email: email})
         .then(user => {
             if(user){
-				errors.push('User Exists');
-                 res.render('users/register', {
-                     errors
-                    //  name,
-                    //  email,
-                    //  password,
-                    //  password2
-				 });	 
+				//errors.push('User Exists');
+				 req.flash('error_msg', 'User Exists');
+				 res.redirect('/');
+                //  res.render('users/register', {
+                //      errors
+                //     //  name,
+                //     //  email,
+                //     //  password,
+                //     //  password2
+				//  });	 
 			} 
 			else
 			 {
@@ -75,7 +77,8 @@ router.post('/register', function(req, res, next) {
 		
 					User.saveStudent(newUser, newStudent, function(err, user){
 						console.log('Student created');
-						req.flash('success_msg', 'Student '+user+' Added');
+						req.flash('success_msg', 'Student Added');
+						res.redirect('/');
 					});
 				} else {
 					console.log('Registering Instructor...');
@@ -94,15 +97,17 @@ router.post('/register', function(req, res, next) {
 		
 					User.saveInstructor(newUser, newInstructor, function(err, user){
 						console.log('Instructor created');
-						req.flash('success_msg', 'Instructor '+user+' Added');
+						req.flash('success_msg', 'Instructor Added');
+						res.redirect('/');
 					});
 				}
+				//req.flash('success_msg', 'User Added');
+				//res.redirect('/');
 					
 			}
 
 		});
-			// req.flash('success_msg', 'User Added');
-			res.redirect('/');
+			
 	}
 });
 
